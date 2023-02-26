@@ -6,6 +6,7 @@
     "outDir": "build",
     "rootDir": "src",
     "sourceMap": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "strict": true
   }
 }

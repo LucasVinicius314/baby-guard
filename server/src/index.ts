@@ -1,31 +1,63 @@
 import express, { NextFunction, Request, Response } from 'express'
 
+import { ValidationError } from 'yup'
+import { authRouter } from './routers/auth-router'
 import { detectionRouter } from './routers/detection-router'
 import { json } from 'body-parser'
+import { sequelize } from './services/sequelize'
 
 const port = process.env.PORT
 
-const app = express()
+const configureSequelize = async () => {
+  await sequelize
+    .authenticate()
+    .then(() => console.log('Database auth ok'))
+    .catch(console.log)
 
-app.use(json())
+  await sequelize
+    .sync({ alter: true, force: false, logging: false })
+    .then(() => console.log('Database sync ok'))
+    .catch(console.log)
+}
 
-app.use((req, res, next) => {
-  const now = new Date()
+const main = async () => {
+  await configureSequelize()
 
-  console.info(`${now.toISOString()} ${req.method} ${req.url}`)
-  console.info(req.body)
+  const app = express()
 
-  next()
-})
+  app.use(json())
 
-app.use('/api/v1', detectionRouter)
+  app.use((req, res, next) => {
+    const now = new Date()
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack)
+    console.info(`${now.toISOString()} ${req.method} ${req.url}`)
+    console.info(req.body)
 
-  res.status(500).send()
-})
+    next()
+  })
 
-app.listen(port, () => {
-  console.log(`listening on port ${port}`)
-})
+  // TODO: fix, authentication middleware
+
+  app.use('/api/v1', detectionRouter)
+  app.use('/api/v1', authRouter)
+
+  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.error(err.stack)
+
+    if (err instanceof ValidationError) {
+      res.status(400).json({
+        message: err.message,
+      })
+
+      return
+    }
+
+    res.status(500).send()
+  })
+
+  app.listen(port, () => {
+    console.log(`listening on port ${port}`)
+  })
+}
+
+main()

@@ -10,11 +10,13 @@ const detectionSchema = yup.object({
 
 detectionRouter.post('/detection', async (req, res, next) => {
   try {
+    // TODO: fix
+
     const { sensorId } = await detectionSchema.validate(req.body)
 
     console.info(`sensor id: ${sensorId}`)
 
-    res.status(200).send()
+    res.status(200).json({})
   } catch (error) {
     next(error)
   }
