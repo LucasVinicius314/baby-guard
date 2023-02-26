@@ -2,13 +2,15 @@ import * as yup from 'yup'
 
 import { Router } from 'express'
 
-export const detectionRouter = Router()
+export const eventRouter = Router()
+
+// TODO: fix, middleware de autenticação de evento
 
 const detectionSchema = yup.object({
   sensorId: yup.string().required(),
 })
 
-detectionRouter.post('/detection', async (req, res, next) => {
+eventRouter.post('/detection', async (req, res, next) => {
   try {
     // TODO: fix
 

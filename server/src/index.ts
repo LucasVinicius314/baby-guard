@@ -2,8 +2,9 @@ import express, { NextFunction, Request, Response } from 'express'
 
 import { ValidationError } from 'yup'
 import { authRouter } from './routers/auth-router'
-import { detectionRouter } from './routers/detection-router'
+import { eventRouter } from './routers/event-router'
 import { json } from 'body-parser'
+import { sensorRouter } from './routers/sensor-router'
 import { sequelize } from './services/sequelize'
 
 const port = process.env.PORT
@@ -36,10 +37,12 @@ const main = async () => {
     next()
   })
 
+  app.use('/api/v1', authRouter)
+
   // TODO: fix, authentication middleware
 
-  app.use('/api/v1', detectionRouter)
-  app.use('/api/v1', authRouter)
+  app.use('/api/v1/sensor', sensorRouter)
+  app.use('/api/v1/event', eventRouter)
 
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack)
