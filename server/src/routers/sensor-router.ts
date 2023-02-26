@@ -1,23 +1,43 @@
 import * as yup from 'yup'
 
 import { Router } from 'express'
+import { SensorModel } from '../services/sequelize'
 
 export const sensorRouter = Router()
 
-// TODO: fix, endpoints do sensor
+const createSchema = yup.object({
+  identifier: yup.string().required(),
+})
 
-// const detectionSchema = yup.object({
-//   sensorId: yup.string().required(),
-// })
+sensorRouter.post('/', async (req, res, next) => {
+  try {
+    const { identifier } = await createSchema.validate(req.body)
 
-// sensorRouter.post('/detection', async (req, res, next) => {
-//   try {
-//     const { sensorId } = await detectionSchema.validate(req.body)
+    console.info(`sensor idendifier: ${identifier}`)
 
-//     console.info(`sensor id: ${sensorId}`)
+    const userId = req.user.id
 
-//     res.status(200).json({})
-//   } catch (error) {
-//     next(error)
-//   }
-// })
+    await SensorModel.create({
+      identifier: identifier,
+      userId: userId,
+    })
+
+    res.status(200).json({})
+  } catch (error) {
+    next(error)
+  }
+})
+
+sensorRouter.get('/', async (req, res, next) => {
+  try {
+    const userId = req.user.id
+
+    const sensors = await SensorModel.findAll({ where: { userId: userId } })
+
+    res.status(200).json({
+      sensors: sensors,
+    })
+  } catch (error) {
+    next(error)
+  }
+})

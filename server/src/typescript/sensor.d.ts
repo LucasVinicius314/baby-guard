@@ -9,7 +9,7 @@ export type SensorAttributes = {
 
 export type SensorCreationAttributes = Optional<
   SensorAttributes,
-  SequelizeBaseFieldKeys
+  SequelizeBaseFieldKeys | 'alias'
 >
 
 export type SensorInstance = Model<SensorAttributes, SensorCreationAttributes> &

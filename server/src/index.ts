@@ -6,6 +6,7 @@ import { eventRouter } from './routers/event-router'
 import { json } from 'body-parser'
 import { sensorRouter } from './routers/sensor-router'
 import { sequelize } from './services/sequelize'
+import { validateJwt } from './utils/jwt'
 
 const port = process.env.PORT
 
@@ -37,12 +38,25 @@ const main = async () => {
     next()
   })
 
-  app.use('/api/v1', authRouter)
+  app.use('/api/v1/auth', authRouter)
 
-  // TODO: fix, authentication middleware
+  app.use('/api/v1/event', eventRouter)
+
+  app.use((req, res, next) => {
+    try {
+      const token = req.headers.authorization
+
+      const user = validateJwt(token)
+
+      req.user = user
+
+      next()
+    } catch (error) {
+      res.status(401).json({})
+    }
+  })
 
   app.use('/api/v1/sensor', sensorRouter)
-  app.use('/api/v1/event', eventRouter)
 
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack)

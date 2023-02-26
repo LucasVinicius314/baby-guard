@@ -1,5 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize'
 
+import { SensorInstance } from '../typescript/sensor'
 import { UserInstance } from '../typescript/user'
 
 export const sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -38,6 +39,28 @@ export const UserModel = sequelize.define<UserInstance>('user', {
     unique: true,
   },
 })
+
+export const SensorModel = sequelize.define<SensorInstance>('sensor', {
+  ...baseAttributes,
+  alias: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  identifier: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+})
+
+// User -> Sensor
+
+UserModel.hasMany(SensorModel, { foreignKey: 'userId' })
+SensorModel.belongsTo(UserModel, { foreignKey: 'userId' })
 
 UserModel.prototype.toJSON = function () {
   let values = Object.assign({}, this.get())

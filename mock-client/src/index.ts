@@ -1,10 +1,10 @@
-import { DetectionService } from './services/detection-service'
+import { EventService } from './services/event-service'
 import { SerialPort } from 'serialport'
 
 const baudRate = 9600
 const comPath = process.env.COM_PATH
 
-const detectionService = new DetectionService()
+const detectionService = new EventService()
 
 const serialPort = new SerialPort({
   path: comPath,
