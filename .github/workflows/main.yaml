@@ -19,7 +19,7 @@ jobs:
         with:
           flutter-version: '3.7.7'
       - run: flutter pub get
-      - run: flutter build apk
+      - run: flutter build apk --release --dart-define=API_AUTHORITY=$API_AUTHORITY
       - uses: actions/upload-artifact@v2
         with:
           name: baby-guard
