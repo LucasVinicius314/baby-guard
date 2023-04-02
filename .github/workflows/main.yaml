@@ -19,33 +19,34 @@ jobs:
         with:
           flutter-version: '3.7.7'
       - run: flutter pub get
-      - run: flutter build apk --release --dart-define=API_AUTHORITY=${{ env.API_AUTHORITY }}
-        env:
-          API_AUTHORITY: ${{ env.API_AUTHORITY }}
-      - uses: actions/upload-artifact@v2
-        with:
-          name: baby-guard
-          path: ./app/build/app/outputs/flutter-apk/app-release.apk
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_PAT }}
-        with:
-          tag_name: ${{ github.ref_name }}
-          release_name: ${{ github.ref_name }}
-          draft: true
-          prerelease: false
-      - uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_PAT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./app/build/app/outputs/flutter-apk/app-release.apk
-          asset_name: baby-guard.apk
-          asset_content_type: application/vnd.android.package-archive
-      - uses: eregon/publish-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_PAT }}
-        with:
-          release_id: ${{ steps.create_release.outputs.id }}
+      - run: echo "${{ env.API_AUTHORITY }}"
+      # - run: flutter build apk --release --dart-define=API_AUTHORITY=${{ env.API_AUTHORITY }}
+      #   env:
+      #     API_AUTHORITY: ${{ env.API_AUTHORITY }}
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     name: baby-guard
+      #     path: ./app/build/app/outputs/flutter-apk/app-release.apk
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.REPO_PAT }}
+      #   with:
+      #     tag_name: ${{ github.ref_name }}
+      #     release_name: ${{ github.ref_name }}
+      #     draft: true
+      #     prerelease: false
+      # - uses: actions/upload-release-asset@v1.0.1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.REPO_PAT }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./app/build/app/outputs/flutter-apk/app-release.apk
+      #     asset_name: baby-guard.apk
+      #     asset_content_type: application/vnd.android.package-archive
+      # - uses: eregon/publish-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.REPO_PAT }}
+      #   with:
+      #     release_id: ${{ steps.create_release.outputs.id }}
