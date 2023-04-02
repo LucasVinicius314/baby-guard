@@ -6,6 +6,7 @@ import { eventRouter } from './routers/event-router'
 import { json } from 'body-parser'
 import { sensorRouter } from './routers/sensor-router'
 import { sequelize } from './services/sequelize'
+import { userRouter } from './routers/user-router'
 import { validateJwt } from './utils/jwt'
 
 const port = process.env.PORT
@@ -58,6 +59,8 @@ const main = async () => {
 
   app.use('/api/v1/sensor', sensorRouter)
 
+  app.use('/api/v1/user', userRouter)
+
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack)
 
@@ -69,7 +72,9 @@ const main = async () => {
       return
     }
 
-    res.status(500).send()
+    res.status(500).send({
+      message: err.toString(),
+    })
   })
 
   app.listen(port, () => {

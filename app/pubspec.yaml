@@ -16,6 +16,9 @@ dependencies:
   dyn_mouse_scroll: ^1.0.7
   shared_preferences: ^2.0.17
   flutter_bloc: ^8.1.2
+  http_interceptor: ^1.0.2
+  json_annotation: ^4.8.0
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
@@ -23,6 +26,8 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   flutter_launcher_icons: '^0.11.0'
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.1
 
 flutter_icons:
   android: 'launcher_icon'
