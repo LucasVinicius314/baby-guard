@@ -132,8 +132,31 @@ class _LoginPageState extends State<LoginPage> {
         if (state is AuthDoneState) {
           await Utils.replaceNavigation(context, HomePage.route);
         } else if (state is AuthErrorState) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(state.message)));
+          if (state.authErrorStateSource == AuthErrorStateSource.login) {
+            await showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Atenção'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(state.message),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () async {
+                        await Utils.popNavigation(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
         }
       },
       child: _getContent(),

@@ -1,6 +1,7 @@
 import 'package:baby_guard/blocs/auth/auth_event.dart';
 import 'package:baby_guard/blocs/auth/auth_state.dart';
 import 'package:baby_guard/exceptions/http_bad_request_exception.dart';
+import 'package:baby_guard/exceptions/http_missing_authorization_exception.dart';
 import 'package:baby_guard/repositories/auth_repository.dart';
 import 'package:baby_guard/repositories/user_repository.dart';
 import 'package:flutter/foundation.dart';
@@ -23,24 +24,50 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .token;
 
         if (token == null) {
-          emit(AuthErrorState(message: 'Empty token.'));
+          emit(
+            AuthErrorState(
+              message: 'Algo deu errado.',
+              authErrorStateSource: AuthErrorStateSource.login,
+            ),
+          );
         } else {
           await authRepository.setAuthorization(token);
 
           final user = (await userRepository.read()).user;
 
           if (user == null) {
-            emit(AuthErrorState(message: 'Empty user.'));
+            emit(
+              AuthErrorState(
+                message: 'Algo deu errado.',
+                authErrorStateSource: AuthErrorStateSource.login,
+              ),
+            );
           } else {
             emit(AuthDoneState(user: user));
           }
         }
+      } on HttpMissingAuthorizationException catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+
+        emit(
+          AuthErrorState(
+            message: 'Login inválido.',
+            authErrorStateSource: AuthErrorStateSource.login,
+          ),
+        );
       } catch (e) {
         if (kDebugMode) {
           print(e);
         }
 
-        emit(AuthErrorState(message: e.toString()));
+        emit(
+          AuthErrorState(
+            message: e.toString(),
+            authErrorStateSource: AuthErrorStateSource.login,
+          ),
+        );
       }
     });
 
@@ -62,14 +89,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .token;
 
         if (token == null) {
-          emit(AuthErrorState(message: 'Empty token.'));
+          emit(
+            AuthErrorState(
+              message: 'Algo deu errado.',
+              authErrorStateSource: AuthErrorStateSource.register,
+            ),
+          );
         } else {
           await authRepository.setAuthorization(token);
 
           final user = (await userRepository.read()).user;
 
           if (user == null) {
-            emit(AuthErrorState(message: 'Empty user.'));
+            emit(
+              AuthErrorState(
+                message: 'Algo deu errado.',
+                authErrorStateSource: AuthErrorStateSource.register,
+              ),
+            );
           } else {
             emit(AuthDoneState(user: user));
           }
@@ -79,13 +116,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           print(e);
         }
 
-        emit(AuthErrorState(message: e.message ?? 'Algo deu errado.'));
+        emit(
+          AuthErrorState(
+            message: 'Usuário já existente.',
+            authErrorStateSource: AuthErrorStateSource.register,
+          ),
+        );
       } catch (e) {
         if (kDebugMode) {
           print(e);
         }
 
-        emit(AuthErrorState(message: e.toString()));
+        emit(
+          AuthErrorState(
+            message: e.toString(),
+            authErrorStateSource: AuthErrorStateSource.register,
+          ),
+        );
       }
     });
 
@@ -100,16 +147,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final user = (await userRepository.read()).user;
 
         if (user == null) {
-          emit(AuthErrorState(message: 'Empty user.'));
+          emit(
+            AuthErrorState(
+              message: 'Algo deu errado.',
+              authErrorStateSource: AuthErrorStateSource.login,
+            ),
+          );
         } else {
           emit(AuthDoneState(user: user));
         }
+      } on HttpMissingAuthorizationException catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+
+        emit(
+          AuthErrorState(
+            message: 'O login expirou.',
+            authErrorStateSource: AuthErrorStateSource.login,
+          ),
+        );
       } catch (e) {
         if (kDebugMode) {
           print(e);
         }
 
-        emit(AuthErrorState(message: e.toString()));
+        emit(
+          AuthErrorState(
+            message: e.toString(),
+            authErrorStateSource: AuthErrorStateSource.login,
+          ),
+        );
       }
     });
   }

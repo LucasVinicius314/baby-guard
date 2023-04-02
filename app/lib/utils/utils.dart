@@ -29,6 +29,7 @@ class Utils {
       print('navigating to $route');
     }
 
-    await Navigator.of(context).pushReplacementNamed(route);
+    await Navigator.of(context)
+        .pushNamedAndRemoveUntil(route, (route) => false);
   }
 }

@@ -12,11 +12,18 @@ class AuthDoneState extends AuthState {
   final User user;
 }
 
+enum AuthErrorStateSource {
+  login,
+  register,
+}
+
 class AuthErrorState extends AuthState {
   AuthErrorState({
+    required this.authErrorStateSource,
     required this.message,
   });
 
+  final AuthErrorStateSource authErrorStateSource;
   final String message;
 }
 

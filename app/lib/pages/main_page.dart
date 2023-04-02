@@ -46,6 +46,8 @@ class _MainPageState extends State<MainPage> {
       listener: (context, state) async {
         if (state is AuthDoneState) {
           await Utils.replaceNavigation(context, HomePage.route);
+        } else if (state is AuthErrorState) {
+          await Utils.replaceNavigation(context, LoginPage.route);
         }
       },
       child: AuthWrapper(
