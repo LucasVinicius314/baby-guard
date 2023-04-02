@@ -1,5 +1,6 @@
 import 'package:baby_guard/blocs/auth/auth_bloc.dart';
 import 'package:baby_guard/blocs/theme/theme_bloc.dart';
+import 'package:baby_guard/blocs/theme/theme_event.dart';
 import 'package:baby_guard/repositories/auth_repository.dart';
 import 'package:baby_guard/repositories/theme_repository.dart';
 import 'package:baby_guard/repositories/user_repository.dart';
@@ -27,7 +28,7 @@ class BlocProviders extends StatelessWidget {
         BlocProvider<ThemeBloc>(
           create: (context) => ThemeBloc(
             themeRepository: RepositoryProvider.of<ThemeRepository>(context),
-          ),
+          )..add(LoadThemeEvent()),
         ),
       ],
       child: child,
