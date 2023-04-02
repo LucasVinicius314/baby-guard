@@ -15,10 +15,14 @@ serialPort.addListener('data', async (chunk: Buffer) => {
   try {
     const now = new Date()
 
-    console.info(now.toISOString())
-    console.log(chunk.toString('utf-8'))
+    const message = chunk.toString('utf-8')
 
-    await detectionService.detection()
+    console.info(now.toISOString())
+    console.log(message)
+
+    if (message === 'detected') {
+      await detectionService.detection()
+    }
   } catch (error) {
     console.info('error')
     console.error(error)
