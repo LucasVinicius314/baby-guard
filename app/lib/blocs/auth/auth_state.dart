@@ -12,26 +12,18 @@ class AuthDoneState extends AuthState {
   final User user;
 }
 
+class AuthErrorState extends AuthState {
+  AuthErrorState({
+    required this.message,
+  });
+
+  final String message;
+}
+
 // Login
 
 class LoginLoadingState extends AuthState {}
 
-class LoginErrorState extends AuthState {
-  LoginErrorState({
-    required this.message,
-  });
-
-  final String message;
-}
-
 // Register
 
 class RegisterLoadingState extends AuthState {}
-
-class RegisterErrorState extends AuthState {
-  RegisterErrorState({
-    required this.message,
-  });
-
-  final String message;
-}

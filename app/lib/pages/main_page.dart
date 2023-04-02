@@ -32,7 +32,7 @@ class _MainPageState extends State<MainPage> {
 
       if (token == null) {
         if (mounted) {
-          await Utils.navigate(context, LoginPage.route);
+          await Utils.replaceNavigation(context, LoginPage.route);
         }
       } else {
         authBloc.add(TokenLoginEvent(token: token));
@@ -45,7 +45,7 @@ class _MainPageState extends State<MainPage> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthDoneState) {
-          await Utils.navigate(context, HomePage.route);
+          await Utils.replaceNavigation(context, HomePage.route);
         }
       },
       child: AuthWrapper(

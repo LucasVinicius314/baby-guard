@@ -2,7 +2,6 @@ import 'package:baby_guard/blocs/auth/auth_bloc.dart';
 import 'package:baby_guard/blocs/auth/auth_event.dart';
 import 'package:baby_guard/blocs/auth/auth_state.dart';
 import 'package:baby_guard/pages/home_page.dart';
-import 'package:baby_guard/pages/register_page.dart';
 import 'package:baby_guard/utils/utils.dart';
 import 'package:baby_guard/widgets/app_title.dart';
 import 'package:baby_guard/widgets/base_page_content_layout.dart';
@@ -10,18 +9,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
-  static const route = '/login';
+  static const route = '/register';
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.all(16),
             child: Text(
-              'Entrar',
+              'Criar conta',
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
@@ -46,6 +46,21 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        labelText: 'Nome',
+                      ),
+                      validator: (value) {
+                        value ??= '';
+
+                        if (value.length < 3) {
+                          return 'Nome muito curto.';
+                        }
+
+                        return null;
+                      },
+                    ),
                     TextFormField(
                       controller: _emailController,
                       decoration: const InputDecoration(
@@ -82,13 +97,13 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: _submit,
-                      child: const Text('ENTRAR'),
+                      child: const Text('CRIAR CONTA'),
                     ),
                     const SizedBox(height: 16),
                     OutlinedButton(
-                      child: const Text('CRIAR CONTA'),
+                      child: const Text('VOLTAR'),
                       onPressed: () async {
-                        await Utils.pushNavigation(context, RegisterPage.route);
+                        await Utils.popNavigation(context);
                       },
                     ),
                   ],
@@ -108,9 +123,10 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     BlocProvider.of<AuthBloc>(context).add(
-      LoginEvent(
+      RegisterEvent(
         email: _emailController.text,
         password: _passwordController.text,
+        username: _usernameController.text,
       ),
     );
   }
@@ -122,6 +138,7 @@ class _LoginPageState extends State<LoginPage> {
     if (kDebugMode) {
       _emailController.text = 'test@test.com';
       _passwordController.text = '1234';
+      _usernameController.text = 'Test';
     }
   }
 

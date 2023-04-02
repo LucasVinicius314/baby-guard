@@ -23,6 +23,8 @@ class Api {
     required String path,
     Map<String, dynamic>? queryParameters,
   }) async {
+    final then = DateTime.now().millisecondsSinceEpoch;
+
     final request = client.get(
       getUri(path),
       params: queryParameters,
@@ -30,7 +32,7 @@ class Api {
 
     final response = await request;
 
-    await validateResponseCode(request);
+    await validateResponseCode(request, then);
 
     final jsonResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
@@ -43,6 +45,8 @@ class Api {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? body,
   }) async {
+    final then = DateTime.now().millisecondsSinceEpoch;
+
     final request = client.post(
       getUri(path),
       params: queryParameters,
@@ -51,7 +55,7 @@ class Api {
 
     final response = await request;
 
-    await validateResponseCode(request);
+    await validateResponseCode(request, then);
 
     final jsonResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
@@ -64,6 +68,8 @@ class Api {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? body,
   }) async {
+    final then = DateTime.now().millisecondsSinceEpoch;
+
     final request = client.patch(
       getUri(path),
       params: queryParameters,
@@ -72,7 +78,7 @@ class Api {
 
     final response = await request;
 
-    await validateResponseCode(request);
+    await validateResponseCode(request, then);
 
     final jsonResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
@@ -85,6 +91,8 @@ class Api {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? body,
   }) async {
+    final then = DateTime.now().millisecondsSinceEpoch;
+
     final request = client.put(
       getUri(path),
       params: queryParameters,
@@ -93,7 +101,7 @@ class Api {
 
     final response = await request;
 
-    await validateResponseCode(request);
+    await validateResponseCode(request, then);
 
     final jsonResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
@@ -106,6 +114,8 @@ class Api {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? body,
   }) async {
+    final then = DateTime.now().millisecondsSinceEpoch;
+
     final request = client.delete(
       getUri(path),
       params: queryParameters,
@@ -114,7 +124,7 @@ class Api {
 
     final response = await request;
 
-    await validateResponseCode(request);
+    await validateResponseCode(request, then);
 
     final jsonResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<String, dynamic>;
@@ -124,29 +134,34 @@ class Api {
 
   Future<void> validateResponseCode(
     FutureOr<Response> request,
+    int then,
   ) async {
-    final awaitedReq = await request;
+    final response = await request;
 
     if (kDebugMode) {
-      print(awaitedReq.request.toString());
-      print(awaitedReq.body);
+      final now = DateTime.now().millisecondsSinceEpoch;
+
+      print(
+        '${now - then} ms ${response.statusCode} ${response.request.toString()}',
+      );
+      print(response.body);
     }
 
     String? message;
 
     try {
-      final map = jsonDecode(utf8.decode(awaitedReq.bodyBytes));
+      final map = jsonDecode(utf8.decode(response.bodyBytes));
 
       message = map['message'];
     } catch (e) {
       if (kDebugMode) print(e);
     }
 
-    if ([401, 403].contains(awaitedReq.statusCode)) {
+    if ([401, 403].contains(response.statusCode)) {
       throw HttpMissingAuthorizationException(message: message);
-    } else if (awaitedReq.statusCode == 404) {
+    } else if (response.statusCode == 404) {
       throw HttpEntityNotFoundException(message: message);
-    } else if (awaitedReq.statusCode >= 400 && awaitedReq.statusCode < 600) {
+    } else if (response.statusCode >= 400 && response.statusCode < 600) {
       throw HttpBadRequestException(message: message);
     }
   }

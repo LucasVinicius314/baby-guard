@@ -1,4 +1,4 @@
-package com.example.baby_guard
+package me.suresure.baby_guard
 
 import io.flutter.embedding.android.FlutterActivity
 

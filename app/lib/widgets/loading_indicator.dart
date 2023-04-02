@@ -5,10 +5,13 @@ class LoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ConstrainedBox(
-        constraints: BoxConstraints.loose(const Size.square(48)),
-        child: const CircularProgressIndicator(),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints.loose(const Size.square(32)),
+          child: const CircularProgressIndicator(),
+        ),
       ),
     );
   }

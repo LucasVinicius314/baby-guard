@@ -23,14 +23,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .token;
 
         if (token == null) {
-          emit(LoginErrorState(message: 'Empty token.'));
+          emit(AuthErrorState(message: 'Empty token.'));
         } else {
           await authRepository.setAuthorization(token);
 
           final user = (await userRepository.read()).user;
 
           if (user == null) {
-            emit(LoginErrorState(message: 'Empty user.'));
+            emit(AuthErrorState(message: 'Empty user.'));
           } else {
             emit(AuthDoneState(user: user));
           }
@@ -40,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           print(e);
         }
 
-        emit(LoginErrorState(message: e.toString()));
+        emit(AuthErrorState(message: e.toString()));
       }
     });
 
@@ -62,14 +62,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             .token;
 
         if (token == null) {
-          emit(LoginErrorState(message: 'Empty token.'));
+          emit(AuthErrorState(message: 'Empty token.'));
         } else {
           await authRepository.setAuthorization(token);
 
           final user = (await userRepository.read()).user;
 
           if (user == null) {
-            emit(LoginErrorState(message: 'Empty user.'));
+            emit(AuthErrorState(message: 'Empty user.'));
           } else {
             emit(AuthDoneState(user: user));
           }
@@ -79,13 +79,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           print(e);
         }
 
-        emit(RegisterErrorState(message: e.message ?? 'Algo deu errado.'));
+        emit(AuthErrorState(message: e.message ?? 'Algo deu errado.'));
       } catch (e) {
         if (kDebugMode) {
           print(e);
         }
 
-        emit(RegisterErrorState(message: e.toString()));
+        emit(AuthErrorState(message: e.toString()));
       }
     });
 
@@ -100,7 +100,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final user = (await userRepository.read()).user;
 
         if (user == null) {
-          emit(LoginErrorState(message: 'Empty user.'));
+          emit(AuthErrorState(message: 'Empty user.'));
         } else {
           emit(AuthDoneState(user: user));
         }
@@ -109,7 +109,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           print(e);
         }
 
-        emit(LoginErrorState(message: e.toString()));
+        emit(AuthErrorState(message: e.toString()));
       }
     });
   }

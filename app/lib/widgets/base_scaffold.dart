@@ -1,6 +1,7 @@
 import 'package:baby_guard/blocs/auth/auth_bloc.dart';
 import 'package:baby_guard/blocs/auth/auth_event.dart';
 import 'package:baby_guard/pages/home_page.dart';
+import 'package:baby_guard/pages/sensors_page.dart';
 import 'package:baby_guard/utils/constants.dart';
 import 'package:baby_guard/utils/utils.dart';
 import 'package:baby_guard/widgets/app_title.dart';
@@ -8,8 +9,8 @@ import 'package:baby_guard/widgets/theme_expansion_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BasePageLayout extends StatelessWidget {
-  const BasePageLayout({
+class BaseScaffold extends StatelessWidget {
+  const BaseScaffold({
     super.key,
     required this.child,
   });
@@ -35,7 +36,13 @@ class BasePageLayout extends StatelessWidget {
               ListTile(
                 title: const Text('Início'),
                 onTap: () async {
-                  await Utils.navigate(context, HomePage.route);
+                  await Utils.replaceNavigation(context, HomePage.route);
+                },
+              ),
+              ListTile(
+                title: const Text('Sensores'),
+                onTap: () async {
+                  await Utils.replaceNavigation(context, SensorsPage.route);
                 },
               ),
               const Divider(height: 0),

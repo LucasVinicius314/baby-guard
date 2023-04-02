@@ -1,5 +1,7 @@
 import 'package:baby_guard/blocs/auth/auth_bloc.dart';
 import 'package:baby_guard/blocs/auth/auth_state.dart';
+import 'package:baby_guard/pages/sensors_page.dart';
+import 'package:baby_guard/utils/utils.dart';
 import 'package:baby_guard/widgets/auth_wrapper.dart';
 import 'package:baby_guard/widgets/base_page_content_layout.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +48,8 @@ class HomePage extends StatelessWidget {
                   const SizedBox(height: 16),
                   OutlinedButton(
                     child: const Text('VER MEUS SENSORES'),
-                    onPressed: () {
-                      // TODO: fix
+                    onPressed: () async {
+                      await Utils.replaceNavigation(context, SensorsPage.route);
                     },
                   ),
                 ],

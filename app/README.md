@@ -1,4 +1,4 @@
-# baby_guard
+# Baby Guard
 
 A new Flutter project.
 

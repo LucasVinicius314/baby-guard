@@ -5,6 +5,8 @@ import 'package:baby_guard/core/repository_providers.dart';
 import 'package:baby_guard/pages/home_page.dart';
 import 'package:baby_guard/pages/login_page.dart';
 import 'package:baby_guard/pages/main_page.dart';
+import 'package:baby_guard/pages/register_page.dart';
+import 'package:baby_guard/pages/sensors_page.dart';
 import 'package:baby_guard/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,7 +52,9 @@ class App extends StatelessWidget {
               routes: {
                 MainPage.route: (context) => const MainPage(),
                 HomePage.route: (context) => const HomePage(),
-                LoginPage.route: (context) => LoginPage(),
+                LoginPage.route: (context) => const LoginPage(),
+                RegisterPage.route: (context) => const RegisterPage(),
+                SensorsPage.route: (context) => const SensorsPage(),
               },
             );
           },
