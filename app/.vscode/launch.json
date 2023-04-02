@@ -8,9 +8,7 @@
       "name": "app",
       "request": "launch",
       "type": "dart",
-      "env": {
-        "API_AUTHORITY": "localhost:3000"
-      }
+      "toolArgs": ["--dart-define", "API_AUTHORITY=localhost:3000"]
     },
     {
       "name": "app (profile mode)",
