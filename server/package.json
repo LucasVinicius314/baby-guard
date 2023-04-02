@@ -5,8 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node build/index.js",
-    "build": "tsc",
-    "postinstall": "yarn run build"
+    "build": "tsc --project tsconfig.json"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
@@ -14,6 +13,7 @@
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.9.0",
     "sequelize": "^6.29.0",
+    "typescript": "^4.9.5",
     "yup": "^1.0.1"
   },
   "devDependencies": {
