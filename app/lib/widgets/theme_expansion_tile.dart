@@ -17,12 +17,12 @@ class _ThemeExpansionTileState extends State<ThemeExpansionTile> {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         return ExpansionTile(
-          title: const Text('Theme'),
+          title: const Text('Tema'),
           children: [
             RadioListTile<ThemeMode>(
               groupValue: state.themeMode,
               value: ThemeMode.system,
-              title: const Text('System'),
+              title: const Text('Sistema'),
               onChanged: (value) {
                 if (value == null) {
                   return;
@@ -35,7 +35,7 @@ class _ThemeExpansionTileState extends State<ThemeExpansionTile> {
             RadioListTile<ThemeMode>(
               groupValue: state.themeMode,
               value: ThemeMode.dark,
-              title: const Text('Dark'),
+              title: const Text('Escuro'),
               onChanged: (value) {
                 if (value == null) {
                   return;
@@ -48,7 +48,7 @@ class _ThemeExpansionTileState extends State<ThemeExpansionTile> {
             RadioListTile<ThemeMode>(
               groupValue: state.themeMode,
               value: ThemeMode.light,
-              title: const Text('Light'),
+              title: const Text('Claro'),
               onChanged: (value) {
                 if (value == null) {
                   return;

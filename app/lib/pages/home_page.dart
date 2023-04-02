@@ -1,7 +1,9 @@
-import 'package:baby_guard/utils/constants.dart';
-import 'package:baby_guard/widgets/base_page.dart';
+import 'package:baby_guard/blocs/auth/auth_bloc.dart';
+import 'package:baby_guard/blocs/auth/auth_state.dart';
+import 'package:baby_guard/widgets/auth_wrapper.dart';
 import 'package:baby_guard/widgets/base_page_content_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,13 +12,18 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BasePage(
+    final hour = DateTime.now().hour;
+
+    final hourString =
+        hour >= 18 ? 'Boa noite' : (hour >= 12 ? 'Boa tarde' : 'Bom dia');
+
+    return AuthWrapper(
       child: BasePageContentLayout(
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
             child: Text(
-              'Home',
+              'Início',
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
@@ -26,8 +33,23 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: const [
-                  Text('Seja bem-vindo(a) ao ${Constants.appName}!'),
+                children: [
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is AuthDoneState) {
+                        return Text('$hourString, ${state.user.username}!');
+                      }
+
+                      return Container();
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  OutlinedButton(
+                    child: const Text('VER MEUS SENSORES'),
+                    onPressed: () {
+                      // TODO: fix
+                    },
+                  ),
                 ],
               ),
             ),

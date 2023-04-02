@@ -2,6 +2,7 @@ import 'package:baby_guard/blocs/auth/auth_bloc.dart';
 import 'package:baby_guard/blocs/auth/auth_event.dart';
 import 'package:baby_guard/pages/home_page.dart';
 import 'package:baby_guard/utils/constants.dart';
+import 'package:baby_guard/utils/utils.dart';
 import 'package:baby_guard/widgets/app_title.dart';
 import 'package:baby_guard/widgets/theme_expansion_tile.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +33,9 @@ class BasePageLayout extends StatelessWidget {
                 automaticallyImplyLeading: false,
               ),
               ListTile(
-                title: const Text('Home'),
+                title: const Text('Início'),
                 onTap: () async {
-                  await Navigator.of(context)
-                      .pushReplacementNamed(HomePage.route);
+                  await Utils.navigate(context, HomePage.route);
                 },
               ),
               const Divider(height: 0),

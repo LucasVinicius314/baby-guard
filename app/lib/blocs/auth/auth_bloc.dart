@@ -3,6 +3,7 @@ import 'package:baby_guard/blocs/auth/auth_state.dart';
 import 'package:baby_guard/exceptions/http_bad_request_exception.dart';
 import 'package:baby_guard/repositories/auth_repository.dart';
 import 'package:baby_guard/repositories/user_repository.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,6 +36,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           }
         }
       } catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+
         emit(LoginErrorState(message: e.toString()));
       }
     });
@@ -70,8 +75,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           }
         }
       } on HttpBadRequestException catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+
         emit(RegisterErrorState(message: e.message ?? 'Algo deu errado.'));
       } catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+
         emit(RegisterErrorState(message: e.toString()));
       }
     });
@@ -92,6 +105,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthDoneState(user: user));
         }
       } catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+
         emit(LoginErrorState(message: e.toString()));
       }
     });

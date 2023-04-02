@@ -2,6 +2,7 @@ import 'package:baby_guard/blocs/auth/auth_bloc.dart';
 import 'package:baby_guard/blocs/auth/auth_event.dart';
 import 'package:baby_guard/blocs/auth/auth_state.dart';
 import 'package:baby_guard/pages/home_page.dart';
+import 'package:baby_guard/utils/utils.dart';
 import 'package:baby_guard/widgets/app_title.dart';
 import 'package:baby_guard/widgets/base_page_content_layout.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +108,7 @@ class LoginPage extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthDoneState) {
-          await Navigator.of(context).pushReplacementNamed(HomePage.route);
+          await Utils.navigate(context, HomePage.route);
         } else if (state is LoginErrorState) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(state.message)));

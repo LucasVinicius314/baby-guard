@@ -1,4 +1,5 @@
 import 'package:baby_guard/repositories/auth_repository.dart';
+import 'package:baby_guard/repositories/sensor_repository.dart';
 import 'package:baby_guard/repositories/theme_repository.dart';
 import 'package:baby_guard/repositories/user_repository.dart';
 import 'package:baby_guard/utils/api.dart';
@@ -22,6 +23,9 @@ class RepositoryProviders extends StatelessWidget {
       providers: [
         RepositoryProvider<AuthRepository>(
           create: (context) => AuthRepository(),
+        ),
+        RepositoryProvider<SensorRepository>(
+          create: (context) => SensorRepository(api: _api),
         ),
         RepositoryProvider<ThemeRepository>(
           create: (context) => ThemeRepository(),
