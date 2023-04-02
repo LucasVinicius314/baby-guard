@@ -3,6 +3,7 @@ import 'package:baby_guard/blocs/auth/auth_event.dart';
 import 'package:baby_guard/blocs/auth/auth_state.dart';
 import 'package:baby_guard/pages/home_page.dart';
 import 'package:baby_guard/pages/register_page.dart';
+import 'package:baby_guard/utils/env.dart';
 import 'package:baby_guard/utils/utils.dart';
 import 'package:baby_guard/widgets/app_title.dart';
 import 'package:baby_guard/widgets/base_page_content_layout.dart';
@@ -95,6 +96,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Text(Env.apiAuthority, textAlign: TextAlign.center),
           ),
           const SizedBox(height: 16),
         ],
