@@ -4,7 +4,7 @@ import { SerialPort } from 'serialport'
 const baudRate = 9600
 const comPath = process.env.COM_PATH
 
-const detectionService = new EventService()
+const eventService = new EventService()
 
 const serialPort = new SerialPort({
   path: comPath,
@@ -21,7 +21,7 @@ serialPort.addListener('data', async (chunk: Buffer) => {
     console.log(message)
 
     if (message === 'detected') {
-      await detectionService.detection()
+      await eventService.detection()
     }
   } catch (error) {
     console.info('error')
