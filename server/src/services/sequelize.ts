@@ -1,5 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize'
 
+import { EventInstance } from '../typescript/event'
 import { SensorInstance } from '../typescript/sensor'
 import { UserInstance } from '../typescript/user'
 
@@ -57,10 +58,23 @@ export const SensorModel = sequelize.define<SensorInstance>('sensor', {
   },
 })
 
+export const EventModel = sequelize.define<EventInstance>('event', {
+  ...baseAttributes,
+  sensorId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+})
+
 // User -> Sensor
 
 UserModel.hasMany(SensorModel, { foreignKey: 'userId' })
 SensorModel.belongsTo(UserModel, { foreignKey: 'userId' })
+
+// Sensor -> Event
+
+SensorModel.hasMany(EventModel, { foreignKey: 'sensorId' })
+EventModel.belongsTo(SensorModel, { foreignKey: 'sensorId' })
 
 UserModel.prototype.toJSON = function () {
   let values = Object.assign({}, this.get())

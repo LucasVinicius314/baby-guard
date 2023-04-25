@@ -8,6 +8,8 @@ import { signJwt } from '../utils/jwt'
 
 export const authRouter = Router()
 
+// Login.
+
 const loginSchema = yup.object({
   email: yup.string().email().required(),
   password: yup.string().min(4).required(),
@@ -22,13 +24,13 @@ authRouter.post('/login', async (req, res, next) => {
     const userInstance = await UserModel.findOne({
       where: {
         [Op.and]: {
-          email: email,
+          email,
           password: passwordHash,
         },
       },
     })
 
-    if (userInstance == null) {
+    if (userInstance === null) {
       res.status(401).json({})
 
       return
@@ -43,6 +45,8 @@ authRouter.post('/login', async (req, res, next) => {
     next(error)
   }
 })
+
+// Register.
 
 const registerSchema = yup.object({
   email: yup.string().email().required(),
@@ -59,9 +63,9 @@ authRouter.post('/register', async (req, res, next) => {
     const passwordHash = sha256(password)
 
     const userInstance = await UserModel.create({
-      email: email,
+      email,
       password: passwordHash,
-      username: username,
+      username,
     })
 
     const signedJwt = signJwt(userInstance.dataValues)

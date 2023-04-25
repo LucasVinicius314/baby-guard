@@ -3,6 +3,8 @@ import { UserModel } from '../services/sequelize'
 
 export const userRouter = Router()
 
+// Get.
+
 userRouter.get('/', async (req, res, next) => {
   try {
     const userId = req.user.id
@@ -10,7 +12,7 @@ userRouter.get('/', async (req, res, next) => {
     const user = await UserModel.findOne({ where: { id: userId } })
 
     res.status(200).json({
-      user: user,
+      user,
     })
   } catch (error) {
     console.log(error)
