@@ -3,6 +3,7 @@ import 'package:baby_guard/blocs/auth/auth_event.dart';
 import 'package:baby_guard/blocs/auth/auth_state.dart';
 import 'package:baby_guard/pages/home_page.dart';
 import 'package:baby_guard/utils/utils.dart';
+import 'package:baby_guard/utils/validation.dart';
 import 'package:baby_guard/widgets/app_title.dart';
 import 'package:baby_guard/widgets/base_page_content_layout.dart';
 import 'package:flutter/foundation.dart';
@@ -69,12 +70,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       validator: (value) {
                         value ??= '';
 
-                        // TODO: fix, validator
-
                         if (value.length < 3) {
                           return 'Email muito curto.';
                         }
 
+                        if (!Validation.isEmail(value)) {
+                          return 'Email inválido.';
+                        }
                         return null;
                       },
                     ),

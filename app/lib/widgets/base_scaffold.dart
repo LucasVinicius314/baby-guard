@@ -13,9 +13,11 @@ class BaseScaffold extends StatelessWidget {
   const BaseScaffold({
     super.key,
     required this.child,
+    this.floatingActionButton,
   });
 
   final Widget child;
+  final Widget? floatingActionButton;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class BaseScaffold extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: appTitle),
+      floatingActionButton: floatingActionButton,
       body: child,
       drawer: Drawer(
         child: SingleChildScrollView(

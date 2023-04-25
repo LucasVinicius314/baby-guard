@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   cupertino_icons: ^1.0.2
   dyn_mouse_scroll: ^1.0.7
@@ -19,6 +21,7 @@ dependencies:
   http_interceptor: ^1.0.2
   json_annotation: ^4.8.0
   http: ^0.13.5
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

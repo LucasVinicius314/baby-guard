@@ -11,11 +11,13 @@ class AuthWrapper extends StatefulWidget {
   const AuthWrapper({
     super.key,
     this.isMain = false,
+    this.floatingActionButton,
     required this.child,
   });
 
   final bool isMain;
   final Widget child;
+  final Widget? floatingActionButton;
 
   @override
   State<AuthWrapper> createState() => _AuthWrapperState();
@@ -54,7 +56,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
         }
 
         if (state is AuthDoneState) {
-          return BaseScaffold(child: widget.child);
+          return BaseScaffold(
+            floatingActionButton: widget.floatingActionButton,
+            child: widget.child,
+          );
         }
 
         return const Scaffold(body: LoadingIndicator());
