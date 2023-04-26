@@ -98,6 +98,7 @@ sensorRouter.get('/:sensorId/event', async (req, res, next) => {
 
     const events = await EventModel.findAll({
       where: { sensorId },
+      order: [['createdAt', 'DESC']],
       include: {
         model: SensorModel,
         where: { userId },
