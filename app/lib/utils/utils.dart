@@ -22,13 +22,14 @@ class Utils {
 
   static Future<void> pushNavigation(
     BuildContext context,
-    String route,
-  ) async {
+    String route, {
+    Object? arguments,
+  }) async {
     if (kDebugMode) {
       print('navigating to $route');
     }
 
-    await Navigator.of(context).pushNamed(route);
+    await Navigator.of(context).pushNamed(route, arguments: arguments);
   }
 
   static Future<void> replaceNavigation(

@@ -24,6 +24,7 @@ eventRouter.post('/detection/:identifier', async (req, res, next) => {
 
     const sensor = await SensorModel.findOne({
       where: { identifier },
+      order: [['createdAt', 'DESC']],
     })
 
     if (sensor === null) {

@@ -2,6 +2,7 @@ import 'package:baby_guard/blocs/theme/theme_bloc.dart';
 import 'package:baby_guard/blocs/theme/theme_state.dart';
 import 'package:baby_guard/core/bloc_providers.dart';
 import 'package:baby_guard/core/repository_providers.dart';
+import 'package:baby_guard/pages/events_page.dart';
 import 'package:baby_guard/pages/home_page.dart';
 import 'package:baby_guard/pages/login_page.dart';
 import 'package:baby_guard/pages/main_page.dart';
@@ -62,6 +63,7 @@ class App extends StatelessWidget {
                 LoginPage.route: (context) => const LoginPage(),
                 RegisterPage.route: (context) => const RegisterPage(),
                 SensorsPage.route: (context) => const SensorsPage(),
+                EventsPage.route: (context) => const EventsPage(),
               },
             );
           },

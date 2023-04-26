@@ -80,7 +80,7 @@ void sendRequest()
   delay(100);
   printResponse();
 
-  String cmd = "POST /api/v1/event/detection HTTP/1.1";
+  String cmd = "POST /api/v1/event/detection/test HTTP/1.1";
   esp8266.println("AT+CIPSEND=4," + String(cmd.length() + 4));
   delay(100);
 

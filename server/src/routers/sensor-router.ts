@@ -37,7 +37,10 @@ sensorRouter.get('/', async (req, res, next) => {
   try {
     const userId = req.user.id
 
-    const sensors = await SensorModel.findAll({ where: { userId } })
+    const sensors = await SensorModel.findAll({
+      where: { userId },
+      order: [['createdAt', 'DESC']],
+    })
 
     res.status(200).json({
       sensors: sensors,
