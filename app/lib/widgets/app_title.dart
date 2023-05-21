@@ -12,8 +12,8 @@ class AppTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          height: 24,
-          width: 24,
+          height: 32,
+          width: 32,
           child: Image.asset(ImageAssets.babyGuard),
         ),
         const SizedBox(width: 8),
