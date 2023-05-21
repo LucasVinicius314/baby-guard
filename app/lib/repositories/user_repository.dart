@@ -58,4 +58,17 @@ class UserRepository {
 
     return res;
   }
+
+  Future<void> updateNotificationToken({
+    required String? fcmToken,
+  }) async {
+    final req = api.put(
+      path: '/api/v1/user/notification-token',
+      body: {
+        'fcmToken': fcmToken,
+      },
+    );
+
+    await req;
+  }
 }

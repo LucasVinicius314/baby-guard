@@ -30,6 +30,10 @@ export const UserModel = sequelize.define<UserInstance>('user', {
     allowNull: false,
     unique: true,
   },
+  fcmToken: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   password: {
     type: DataTypes.STRING(256),
     allowNull: false,

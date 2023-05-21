@@ -21,7 +21,9 @@ dependencies:
   http_interceptor: ^1.0.2
   json_annotation: ^4.8.0
   http: ^0.13.5
-  intl: ^0.17.0
+  intl: ^0.18.0
+  firebase_core: ^2.13.0
+  firebase_messaging: ^14.6.1
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +57,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/images/
 
   fonts:
     - family: Poppins
