@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:baby_guard/blocs/auth/auth_bloc.dart';
 import 'package:baby_guard/blocs/auth/auth_state.dart';
+import 'package:baby_guard/blocs/notification/notification_bloc.dart';
+import 'package:baby_guard/blocs/notification/notification_event.dart';
+import 'package:baby_guard/blocs/notification/notification_state.dart';
 import 'package:baby_guard/blocs/notification_token/notification_token_event.dart';
 import 'package:baby_guard/blocs/notification_token/notification_token_bloc.dart';
 import 'package:baby_guard/pages/main_page.dart';
@@ -34,24 +37,10 @@ class _AuthWrapperState extends State<AuthWrapper> {
   StreamSubscription<RemoteMessage>? _fcmMessageSubscription;
 
   void _handleFcmForegroundMessage(RemoteMessage message) {
-    final title = message.notification?.title ?? 'Atenção';
-
-    final body = message.notification?.body ?? 'Nova notificação.';
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Colors.black,
-                  ),
-            ),
-            Text(body),
-          ],
-        ),
+    BlocProvider.of<NotificationBloc>(context).add(
+      NewNotificationEvent(
+        title: message.notification?.title ?? 'Atenção',
+        body: message.notification?.body ?? 'Nova notificação.',
       ),
     );
   }
@@ -106,31 +95,58 @@ class _AuthWrapperState extends State<AuthWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) async {
-        if (state is AuthInitialState) {
-          await Utils.replaceNavigation(context, MainPage.route);
-        }
-      },
-      builder: (context, state) {
-        if (state is AuthErrorState) {
-          return Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.all(64),
-              child: Text(state.message, textAlign: TextAlign.center),
-            ),
-          );
-        }
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) async {
+            if (state is AuthInitialState) {
+              await Utils.replaceNavigation(context, MainPage.route);
+            }
+          },
+        ),
+        BlocListener<NotificationBloc, NotificationState>(
+          listener: (context, state) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      state.title,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(color: Colors.black),
+                    ),
+                    Text(state.body),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          if (state is AuthErrorState) {
+            return Scaffold(
+              body: Padding(
+                padding: const EdgeInsets.all(64),
+                child: Text(state.message, textAlign: TextAlign.center),
+              ),
+            );
+          }
 
-        if (state is AuthDoneState) {
-          return BaseScaffold(
-            floatingActionButton: widget.floatingActionButton,
-            child: widget.child,
-          );
-        }
+          if (state is AuthDoneState) {
+            return BaseScaffold(
+              floatingActionButton: widget.floatingActionButton,
+              child: widget.child,
+            );
+          }
 
-        return const Scaffold(body: LoadingIndicator());
-      },
+          return const Scaffold(body: LoadingIndicator());
+        },
+      ),
     );
   }
 }

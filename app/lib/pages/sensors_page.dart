@@ -60,6 +60,10 @@ class _SensorsPageState extends State<SensorsPage> {
                   BlocProvider.of<SensorBloc>(context).add(ListSensorsEvent());
                 }
 
+                if (state is UpdateSensorDoneState) {
+                  BlocProvider.of<SensorBloc>(context).add(ListSensorsEvent());
+                }
+
                 if (state is DeleteSensorDoneState) {
                   BlocProvider.of<SensorBloc>(context).add(ListSensorsEvent());
                 }

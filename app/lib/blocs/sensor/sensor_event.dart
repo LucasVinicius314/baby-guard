@@ -10,6 +10,14 @@ class CreateSensorEvent extends SensorEvent {
   final Sensor sensor;
 }
 
+class UpdateSensorEvent extends SensorEvent {
+  UpdateSensorEvent({
+    required this.sensor,
+  });
+
+  final Sensor sensor;
+}
+
 class DeleteSensorEvent extends SensorEvent {
   DeleteSensorEvent({
     required this.sensor,

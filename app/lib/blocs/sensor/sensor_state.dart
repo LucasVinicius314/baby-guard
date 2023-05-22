@@ -24,6 +24,26 @@ class CreateSensorErrorState extends SensorState {
   final String message;
 }
 
+// UpdateSensor
+
+class UpdateSensorLoadingState extends SensorState {}
+
+class UpdateSensorDoneState extends SensorState {
+  UpdateSensorDoneState({
+    required this.sensor,
+  });
+
+  final Sensor sensor;
+}
+
+class UpdateSensorErrorState extends SensorState {
+  UpdateSensorErrorState({
+    required this.message,
+  });
+
+  final String message;
+}
+
 // DeleteSensor
 
 class DeleteSensorLoadingState extends SensorState {}

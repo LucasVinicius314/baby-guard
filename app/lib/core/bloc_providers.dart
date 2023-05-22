@@ -1,4 +1,5 @@
 import 'package:baby_guard/blocs/auth/auth_bloc.dart';
+import 'package:baby_guard/blocs/notification/notification_bloc.dart';
 import 'package:baby_guard/blocs/notification_token/notification_token_bloc.dart';
 import 'package:baby_guard/blocs/sensor/sensor_bloc.dart';
 import 'package:baby_guard/blocs/theme/theme_bloc.dart';
@@ -42,6 +43,9 @@ class BlocProviders extends StatelessWidget {
           create: (context) => NotificationTokenBloc(
             userRepository: RepositoryProvider.of<UserRepository>(context),
           ),
+        ),
+        BlocProvider<NotificationBloc>(
+          create: (context) => NotificationBloc(),
         ),
       ],
       child: child,

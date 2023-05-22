@@ -16,6 +16,17 @@ class SensorRepository {
     await req;
   }
 
+  Future<void> update({required Sensor sensor}) async {
+    final req = api.patch(
+      path: '/api/v1/sensor/${sensor.id}',
+      body: {
+        'identifier': sensor.identifier,
+      },
+    );
+
+    await req;
+  }
+
   Future<void> delete({required Sensor sensor}) async {
     final req = api.delete(
       path: '/api/v1/sensor/${sensor.id}',

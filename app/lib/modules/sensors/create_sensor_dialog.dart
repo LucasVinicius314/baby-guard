@@ -6,6 +6,7 @@ import 'package:baby_guard/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// TODO: fix, use a modal bottom sheet instead of this
 class CreateSensorDialog extends StatelessWidget {
   CreateSensorDialog({super.key});
 

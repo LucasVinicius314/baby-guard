@@ -50,6 +50,42 @@ sensorRouter.get('/', async (req, res, next) => {
   }
 })
 
+// Update.
+
+const updateSchema = yup.object({
+  sensorId: yup.number().required(),
+  identifier: yup.string().required(),
+})
+
+sensorRouter.patch('/:sensorId', async (req, res, next) => {
+  try {
+    const userId = req.user.id
+
+    const { sensorId, identifier } = await updateSchema.validate({
+      ...req.body,
+      sensorId: req.params.sensorId,
+    })
+
+    const sensor = await SensorModel.findOne({
+      where: { userId, id: sensorId },
+    })
+
+    if (sensor === undefined || sensor === null) {
+      res.status(404).json({
+        message: `Sensor with the id <${sensorId}> not found`,
+      })
+
+      return
+    }
+
+    await sensor?.update({ identifier })
+
+    res.status(200).json({})
+  } catch (error) {
+    next(error)
+  }
+})
+
 // Delete.
 
 const deleteSchema = yup.object({

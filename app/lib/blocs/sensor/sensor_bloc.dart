@@ -23,6 +23,22 @@ class SensorBloc extends Bloc<SensorEvent, SensorState> {
       }
     });
 
+    on<UpdateSensorEvent>((event, emit) async {
+      try {
+        emit(UpdateSensorLoadingState());
+
+        await sensorRepository.update(sensor: event.sensor);
+
+        emit(UpdateSensorDoneState(sensor: event.sensor));
+      } catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+
+        emit(UpdateSensorErrorState(message: e.toString()));
+      }
+    });
+
     on<DeleteSensorEvent>((event, emit) async {
       try {
         emit(DeleteSensorLoadingState());
