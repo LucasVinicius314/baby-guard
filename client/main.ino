@@ -87,26 +87,6 @@ void sendRequest()
   esp8266.println(cmd);
   delay(100);
   esp8266.println("");
-
-  // while (true)
-  // {
-  //   if (esp8266.available())
-  //   {
-  //     String a = "";
-
-  //     while (esp8266.available())
-  //     {
-  //       char j = esp8266.read();
-
-  //       a += j;
-  //     }
-
-  //     Serial.println("================");
-  //     Serial.println(a);
-  //   }
-
-  //   delay(10);
-  // }
 }
 
 void setup()

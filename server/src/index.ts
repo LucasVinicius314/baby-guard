@@ -1,3 +1,5 @@
+import * as firebaseAdmin from 'firebase-admin/app'
+
 import express, { NextFunction, Request, Response } from 'express'
 
 import { ValidationError } from 'yup'
@@ -10,6 +12,10 @@ import { userRouter } from './routers/user-router'
 import { validateJwt } from './utils/jwt'
 
 const port = process.env.PORT
+
+const configureFirebase = () => {
+  firebaseAdmin.initializeApp()
+}
 
 const configureSequelize = async () => {
   await sequelize
@@ -24,6 +30,8 @@ const configureSequelize = async () => {
 }
 
 const main = async () => {
+  configureFirebase()
+
   await configureSequelize()
 
   const app = express()
